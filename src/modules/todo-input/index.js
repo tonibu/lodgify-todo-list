@@ -1,13 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { setTodoText } from 'actions/todo-input';
 
-export const TodoInput = (props) => (
+const TodoInput = (props) => (
   <div className="todo-input">
     <form onSubmit={props.handleFormSubmit}>
       <input
         onChange={props.handleChange}
         placeholder="..."
         type="text"
-        value={props.todo}/>
+        value={props.todoInput.text}/>
       <button>
         Add
       </button>
@@ -16,3 +18,13 @@ export const TodoInput = (props) => (
 );
 
 TodoInput.displayName = 'TodoInput';
+
+const mapStateToProps = ({ todoInput }) => ({
+  todoInput,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleChange: (e) => dispatch(setTodoText(e.currentTarget.value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoInput);
