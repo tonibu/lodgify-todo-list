@@ -7,15 +7,17 @@ export const DELETE_TODO = 'DELETE_TODO';
 export const createTodo = () => (dispatch, getState) => {
   const { todoInput } = getState();
 
-  dispatch({
-    type: CREATE_TODO,
-    todo: {
-      id: uniqueId(),
-      text: todoInput.text,
-    },
-  });
+  if (todoInput && todoInput.text) {
+    dispatch({
+      type: CREATE_TODO,
+      todo: {
+        id: uniqueId(),
+        text: todoInput.text,
+      },
+    });
 
-  dispatch(setTodoText(''));
+    dispatch(setTodoText(''));
+  }
 };
 
 export const deleteTodo = (id) => ({
