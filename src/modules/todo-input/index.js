@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setTodoText } from 'actions/todo-input';
+import { createTodo } from 'actions/todos';
 
 const TodoInput = (props) => (
   <div className="todo-input">
@@ -25,6 +26,10 @@ const mapStateToProps = ({ todoInput }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleChange: (e) => dispatch(setTodoText(e.currentTarget.value)),
+  handleFormSubmit: (e) => {
+    e.preventDefault();
+    dispatch(createTodo());
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoInput);
