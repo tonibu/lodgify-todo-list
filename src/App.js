@@ -26,12 +26,24 @@ export class App extends Component {
   };
 
   handleClickDelete = index => {
-    console.log(`Deleting todo number ${index}`);
     const { todos } = this.state;
     this.setState({ todos: [
       ...todos.slice(0, index),
       ...todos.slice(index + 1)
     ]});
+  }
+
+  showTodos = todos => {
+    if (todos.length) {
+      return todos.map((todo, index) => (
+        <Todo
+          key={todo.id}
+          onClickDelete={() => this.handleClickDelete(index)}
+          text={todo.text} />
+      ));
+    }
+
+    return 'You\'re all done 🌴';
   }
 
   render() {
@@ -44,15 +56,18 @@ export class App extends Component {
         <h1>todos</h1>
         <p><span id="counter">1</span> remaining</p>
         <div>
-          {
-            todos.length
-              ? todos.map((todo, index) => <Todo key={todo.id} onClickDelete={() => this.handleClickDelete(index)} text={todo.text} />)
-              : 'You\'re all done 🌴'
-          }
+          {this.showTodos(todos)}
         </div>
         <div className="todo-input">
-          <input onChange={this.handleChange} placeholder="..." type="text" value={todo}/>
-          <button onClick={this.handleClickAdd}>Add</button>
+          <input
+            onChange={this.handleChange}
+            placeholder="..."
+            type="text"
+            value={todo} />
+          <button
+            onClick={this.handleClickAdd}>
+            Add
+          </button>
         </div>
       </div>
     )
