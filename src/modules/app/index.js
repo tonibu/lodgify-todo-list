@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { TodoInput } from 'modules/todo-input';
+import { TodoList } from 'modules/todo-list';
 import { uniqueId } from 'lodash';
-
-import { Todo } from './Todo';
 
 export class App extends Component {
 
@@ -20,7 +20,9 @@ export class App extends Component {
 
   handleChange = event => this.setState({ todo: event.target.value });
 
-  handleClickAdd = () => {
+  handleClickAdd = (e) => {
+    e.preventDefault();
+    
     const { todo, todos } = this.state;
     todo && this.setState({ todos: [ ...todos, { text: todo } ] });
   };
@@ -33,19 +35,6 @@ export class App extends Component {
     ]});
   }
 
-  showTodos = todos => {
-    if (todos.length) {
-      return todos.map((todo, index) => (
-        <Todo
-          key={todo.id}
-          onClickDelete={() => this.handleClickDelete(index)}
-          text={todo.text} />
-      ));
-    }
-
-    return 'You\'re all done 🌴';
-  }
-
   render() {
     this.state.todos.forEach((todo, index) => {
       this.state.todos[index] = { ...todo, id: uniqueId() };
@@ -55,22 +44,15 @@ export class App extends Component {
       <div className="todo-list">
         <h1>todos</h1>
         <p><span id="counter">1</span> remaining</p>
-        <div>
-          {this.showTodos(todos)}
-        </div>
-        <div className="todo-input">
-          <input
-            onChange={this.handleChange}
-            placeholder="..."
-            type="text"
-            value={todo} />
-          <button
-            onClick={this.handleClickAdd}>
-            Add
-          </button>
-        </div>
+        <TodoList
+          todos={todos}
+          handleClickDelete={this.handleClickDelete} />
+        <TodoInput
+          todo={todo}
+          handleChange={this.handleChange}
+          handleFormSubmit={this.handleClickAdd} />
       </div>
     )
   }
 
-}
+};

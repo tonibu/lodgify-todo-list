@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SRC_DIR = path.join(__dirname, '..', '..', 'src');
 
 module.exports = {
-  entry: `${SRC_DIR}/index.js`,
+  entry: `${SRC_DIR}/modules/index.js`,
   module: {
     rules: [
       {
@@ -21,4 +21,9 @@ module.exports = {
   },
   devtool: 'source-map',
   plugins: [ new HtmlWebpackPlugin() ],
+  resolve: {
+    alias: {
+      'modules': `${SRC_DIR}/modules`,
+    },
+  },
 };
