@@ -28,6 +28,9 @@ module.exports = {
   resolve: {
     alias: {
       'modules': `${SRC_DIR}/modules`,
+      'store': `${SRC_DIR}/store`,
+      'actions': `${SRC_DIR}/actions`,
+      'reducers': `${SRC_DIR}/reducers`,
     },
   },
 };
