@@ -5,7 +5,7 @@ const DIST_DIR = path.join(__dirname, '..', '..', 'dist');
 const SRC_DIR = path.join(__dirname, '..', '..', 'src');
 
 module.exports = {
-  entry: `${SRC_DIR}/index.js`,
+  entry: `${SRC_DIR}/modules/index.js`,
   module: {
     rules: [
       {
@@ -25,4 +25,9 @@ module.exports = {
     path: DIST_DIR,
   },
   plugins: [ new HtmlWebpackPlugin() ],
+  resolve: {
+    alias: {
+      'modules': `${SRC_DIR}/modules`,
+    },
+  },
 };
