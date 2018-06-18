@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import store from 'store';
 
-import { App } from 'modules/app';
+import App from 'modules/app';
 import './styles.css';
 
 const rootDiv = document.createElement('div');

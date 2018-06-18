@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { TodoInput } from 'modules/todo-input';
+import { connect } from 'react-redux';
+import TodoInput from 'modules/todo-input';
 import { TodoList } from 'modules/todo-list';
 import { uniqueId } from 'lodash';
 
-export class App extends Component {
+class App extends Component {
 
   state = {
-    todo: '',
     todos: [ { text: 'Add your first todo' } ]
   }
 
@@ -18,13 +18,12 @@ export class App extends Component {
     }
   }
 
-  handleChange = event => this.setState({ todo: event.target.value });
-
   handleClickAdd = (e) => {
     e.preventDefault();
     
-    const { todo, todos } = this.state;
-    todo && this.setState({ todos: [ ...todos, { text: todo } ] });
+    const todoText = this.props.todoInput && this.props.todoInput.text;
+    const { todos } = this.state;
+    todoText && this.setState({ todos: [ ...todos, { text: todoText } ] });
   };
 
   handleClickDelete = index => {
@@ -39,7 +38,7 @@ export class App extends Component {
     this.state.todos.forEach((todo, index) => {
       this.state.todos[index] = { ...todo, id: uniqueId() };
     });
-    const { todo, todos } = this.state;
+    const { todos } = this.state;
     return (
       <div className="todo-list">
         <h1>todos</h1>
@@ -48,11 +47,16 @@ export class App extends Component {
           todos={todos}
           handleClickDelete={this.handleClickDelete} />
         <TodoInput
-          todo={todo}
-          handleChange={this.handleChange}
           handleFormSubmit={this.handleClickAdd} />
       </div>
     )
   }
-
 };
+
+App.displayName = 'App';
+
+const mapStateToProps = ({ todoInput }) => ({
+  todoInput,
+});
+
+export default connect(mapStateToProps)(App);
